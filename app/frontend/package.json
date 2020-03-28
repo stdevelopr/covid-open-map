@@ -1,0 +1,43 @@
+{
+  "name": "jtray",
+  "version": "1.0.0",
+  "description": "COVID Open Map",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --mode development -w",
+    "dev": "webpack --mode development --progress",
+    "build": "webpack --mode production --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stdevelopr/JTray.git"
+  },
+  "keywords": [
+    "covid",
+    "map"
+  ],
+  "author": "STdevelopr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stdevelopr/JTray/issues"
+  },
+  "homepage": "https://github.com/stdevelopr/JTray#readme",
+  "dependencies": {
+    "leaflet": "^1.6.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-leaflet": "^2.6.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
+}
