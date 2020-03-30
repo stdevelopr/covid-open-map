@@ -34,19 +34,15 @@ const App = () => {
   const [lat, setLat] = useState(-23);
   const [long, setLong] = useState(-45);
   const [zoom, setZoom] = useState(3);
-  const [name, setname] = useState("");
+  const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(true);
+  const [listPoints, setListPoints] = useState([]);
   const position = [lat, long];
 
   function success(pos) {
-    console.log(pos);
     var crd = pos.coords;
 
-    console.log("Your current position is:");
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
     setLat(crd.latitude);
     setLong(crd.longitude);
     setZoom(8);
@@ -58,7 +54,6 @@ const App = () => {
     fetch("https://ipapi.co/json")
       .then(res => res.json())
       .then(loc => {
-        console.log(loc);
         setLat(loc.latitude);
         setLong(loc.longitude);
         setZoom(8);
@@ -66,12 +61,25 @@ const App = () => {
   }
 
   useEffect(() => {
+    fetch("/get_points")
+      .then(res => res.json())
+      .then(data => setListPoints(data));
     navigator.geolocation.getCurrentPosition(success, error);
-  });
+  }, []);
 
   const formSubmitted = e => {
     e.preventDefault();
+    const post_message = {
+      contact,
+      message,
+      lat,
+      long
+    };
     console.log("submit");
+    fetch("/save", {
+      method: "POST",
+      body: JSON.stringify(post_message)
+    });
   };
 
   return (
@@ -93,9 +101,18 @@ const App = () => {
         />
         <Marker position={position} icon={myIcon}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            Test. <br /> Easily customizable.
           </Popup>
         </Marker>
+        {listPoints.map(el => {
+          return (
+            <Marker key={el.id} position={[el.lat, el.long]} icon={myIcon}>
+              <Popup>
+                Test. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          );
+        })}
       </Map>
       <Collapse isOpen={open}>
         <Card body className="message-form">
@@ -105,14 +122,14 @@ const App = () => {
           {/* <CardText>Informações</CardText> */}
           <Form onSubmit={formSubmitted}>
             <FormGroup>
-              <Label for="examplename">Nome:</Label>
+              <Label for="examplename">Contato:</Label>
               <Input
-                onChange={e => setname(e.target.value)}
+                onChange={e => setContact(e.target.value)}
                 type="name"
                 name="name"
                 id="examplename"
-                placeholder="Nome ou contato..."
-                value={name}
+                placeholder="Deixe um contato..."
+                value={contact}
               />
             </FormGroup>
             <FormGroup>
