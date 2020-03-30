@@ -4,6 +4,30 @@ body {
   height: 100vh; */
 }
 
+.header {
+  text-align: center;
+  color: yellow;
+  height: 40px;
+  background-color: black;
+}
+
+.display {
+  margin: 0px;
+}
+
 .map {
-  height: 90vh;
+  height: 95vh;
+}
+
+.message-form {
+  position: absolute !important;
+  top: 40px;
+  right: 0;
+  z-index: 10000;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 0px;
+  right: 5px;
 }

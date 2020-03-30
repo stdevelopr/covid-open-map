@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "./App.css";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Card, Button, CardTitle, CardText, Row, Col } from "reactstrap";
+import { Collapse, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
 var myIcon = L.icon({
   iconUrl:
@@ -33,6 +34,9 @@ const App = () => {
   const [lat, setLat] = useState(-23);
   const [long, setLong] = useState(-45);
   const [zoom, setZoom] = useState(3);
+  const [name, setname] = useState("");
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(true);
   const position = [lat, long];
 
   function success(pos) {
@@ -46,6 +50,7 @@ const App = () => {
     setLat(crd.latitude);
     setLong(crd.longitude);
     setZoom(8);
+    <CardText></CardText>;
   }
 
   function error(err) {
@@ -64,9 +69,23 @@ const App = () => {
     navigator.geolocation.getCurrentPosition(success, error);
   });
 
+  const formSubmitted = e => {
+    e.preventDefault();
+    console.log("submit");
+  };
+
   return (
     <div>
-      <h1>COVID OPEN MAP</h1>
+      <div className="header">
+        <h3 className="display">COVID OPEN MAP</h3>
+        <Button
+          color="primary"
+          onClick={() => setOpen(!open)}
+          className="toggle-button"
+        >
+          Registre seu caso de COVID19 !
+        </Button>
+      </div>
       <Map className="map" center={position} zoom={zoom}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -78,6 +97,39 @@ const App = () => {
           </Popup>
         </Marker>
       </Map>
+      <Collapse isOpen={open}>
+        <Card body className="message-form">
+          <CardTitle>
+            <b>Informações</b>
+          </CardTitle>
+          {/* <CardText>Informações</CardText> */}
+          <Form onSubmit={formSubmitted}>
+            <FormGroup>
+              <Label for="examplename">Nome:</Label>
+              <Input
+                onChange={e => setname(e.target.value)}
+                type="name"
+                name="name"
+                id="examplename"
+                placeholder="Nome ou contato..."
+                value={name}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleText">Mensagem:</Label>
+              <Input
+                onChange={e => setMessage(e.target.value)}
+                type="textarea"
+                name="text"
+                id="exampleText"
+                placeholder="Escreva uma mensagem"
+                value={message}
+              />
+            </FormGroup>
+            <Button type="submit">Registrar</Button>
+          </Form>
+        </Card>
+      </Collapse>
     </div>
   );
 };
